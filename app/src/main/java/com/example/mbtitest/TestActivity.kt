@@ -17,6 +17,7 @@ class TestActivity : AppCompatActivity() {
 
         viewPager = findViewById(R.id.viewPager)
         viewPager.adapter = ViewPagerAdapter(this)
+        //화면을 터치로 좌우로 움직일 시 새로운 화면 나오는 걸 막음
         viewPager.isUserInputEnabled = false
     }
 

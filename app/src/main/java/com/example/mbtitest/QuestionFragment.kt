@@ -1,5 +1,7 @@
 package com.example.mbtitest
 
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,19 +17,19 @@ import android.widget.Toast
 class QuestionFragment :  Fragment() {
     private var questionType: Int = 0
 
-    private val questionTitles = listOf(
+    private val questionTitles = listOf(//질문 주제? 모음
         R.string.question1_title,
         R.string.question2_title,
         R.string.question3_title,
         R.string.question4_title
     )
-    private val questionTexts = listOf(
+    private val questionTexts = listOf(//질문 모음
         listOf(R.string.question1_1, R.string.question1_2, R.string.question1_3),
         listOf(R.string.question2_1, R.string.question2_2, R.string.question2_3),
         listOf(R.string.question3_1, R.string.question3_2, R.string.question3_3),
         listOf(R.string.question4_1, R.string.question4_2, R.string.question4_3),
     )
-    private val questionAnswers = listOf(
+    private val questionAnswers = listOf(//답변 모음
         listOf(
             listOf(R.string.question1_1_answer1, R.string.question1_1_answer2),
             listOf(R.string.question1_2_answer1, R.string.question1_2_answer2),
@@ -52,6 +54,7 @@ class QuestionFragment :  Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             questionType = it.getInt(ARG_QUESTION_TYPE)
         }
@@ -61,9 +64,19 @@ class QuestionFragment :  Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val nightModeFlags = //onCreate때 확인 가능함
+            getResources().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
         val view = inflater.inflate(R.layout.fragment_question, container, false)
 
         val title: TextView = view.findViewById(R.id.tv_question_title)
+
+        val btnNext: Button = view.findViewById(R.id.btn_next)
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES){
+            title.setTextColor(Color.BLACK)
+            btnNext.setTextColor(Color.BLACK)
+        }
+
         title.text = getString(questionTitles[questionType])
 
         val questionTextViews = listOf<TextView>(
